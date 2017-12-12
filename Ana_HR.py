@@ -47,6 +47,7 @@ class Analyse:
 
 #A
 #B
+#C
 toto = Analyse()
 toto = Analyse.vide(toto,'Nom')
 help(Analyse)
