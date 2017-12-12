@@ -45,7 +45,8 @@ class Analyse:
                 print(n)
             n += 1
 
-
+#A
+#B
 toto = Analyse()
 toto = Analyse.vide(toto,'Nom')
 help(Analyse)
