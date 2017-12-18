@@ -1,22 +1,37 @@
-class Personne:
-    """Classe définissant une personne caractérisée par :
 
-    - son nom
+import pandas as pd
 
-    - son prénom
+Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')
+df = Excel.parse('Feuil1')
+#df['Nom'][0].str.count()
 
-    - son âge
 
-    - son lieu de résidence"""
+#print(df['Prénom'].get_loc('Julie')
 
-    def __init__(self):
-        """Constructeur de notre classe"""
+#print(df['Prénom'].str.contains('Julie'))
+#print(df['Prénom'].str.find('Julie'))
+print(df['Prénom'].index('Julie'))
+#a = df[df['Prénom']=='Julie']
 
-        self.age = 33
+#print(a)
 
-        self.lieu_residence = "Paris"
+#df['count'] = map(lambda x: x.count("1"), df['Quarters'])
 
-toto = Personne()
 
-print(toto.lieu_residence)
+#print(df['Nom'].value_counts())
+# df = xls_file.parse('Feuil1')
+# for cel in df['Nom']:
+# if cel[0] == 'A':
+# print(cel)
 
+# wb = Workbook()
+
+# root = tk.Tk()
+# root.withdraw()  # pour ne pas afficher la fenêtre Tk
+
+# path = askopenfilename()  # lance la fenêtre et recupère le chemin
+
+# wb = load_workbook(path)
+# ws = wb.active
+
+# c = ws['B3']
