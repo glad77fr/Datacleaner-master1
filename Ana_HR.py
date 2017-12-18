@@ -2,7 +2,7 @@ from openpyxl import *
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
-import numpy as np
+import petl as petl
 
 
 class Analyse:
@@ -15,7 +15,12 @@ class Analyse:
         #self.Excel.parse(convert_float=false)
         self.df = self.Excel.parse('Feuil1')
         self.dfr = pd.DataFrame() # Stock les réponses
-        print(self.df.iloc[:,0])
+        #print(self.df.iloc[:,0])
+        self.dfr['Matricule_sal'] = self.df.iloc[:,0] # Ajoute le matricule au fichier résultat
+        self.dfr['Nom_sal'] = self.df.iloc[:, 1] #Ajoute les nom au fichier résultat
+        self.dfr['Prénom_sal'] = self.df.iloc[:, 2]  # Ajoute les nom au fichier résultat
+
+        #print(self.dfr)
 
     def charger(self):
         root = tk.Tk()
