@@ -12,14 +12,12 @@ class Analyse:
         self.localisation = " "
         self.wb = Workbook()
         self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
-        #self.Excel.parse(convert_float=false)
         self.df = self.Excel.parse('Feuil1')
         self.dfr = pd.DataFrame() # Stock les réponses
         #print(self.df.iloc[:,0])
         self.dfr['Matricule_sal'] = self.df.iloc[:,0] # Ajoute le matricule au fichier résultat
         self.dfr['Nom_sal'] = self.df.iloc[:, 1] #Ajoute les noms au fichier résultat
         self.dfr['Prénom_sal'] = self.df.iloc[:, 2]  # Ajoute les noms au fichier résultat
-
 
     def charger(self):
         root = tk.Tk()
@@ -37,19 +35,20 @@ class Analyse:
 
     def espace(self,champs):
         "Méthode permettant de vérifier si une cellule comporte des espaces en début de chaine"
-        self.charg_result(champs)
-        n = 1
+        resultat=[]
+        n = 2
         self.df[champs] = self.df[champs].astype(str)
         for cel in self.df[champs]:
                 if cel[0] == " ":
-                    print(n)
+                    resultat.append(n)
                 n += 1
+        #print(resultat)
+        self.charg_result(champs, resultat, 'Espace devant le champ')
 
     def doublon(champs):
         "Méthode permettant de vérifier si une donnée est dupliquée"
         n = 1
         o = 0
-
         for cel in self.df[champs]:
                 o = 0
                 valrech = cel
@@ -59,15 +58,20 @@ class Analyse:
                 print(self.df['Nom'][n], ' ', o)
                 n += 1
 
-    def charg_result(self,champs):
+    def charg_result(self,champs,liste,anomalie):
         "Permet de charger les résultats dans le dataframe"
-        if champs in self.df.columns:
-            print("champ inexistant")
-        else:
-            print("champs inexistant")
+        if len(liste) != 0:
+            if champs in self.dfr.columns:
+                print("champ inexistant")
+            else:
+                pcol = len(self.dfr.columns) + 1
+                self.dfr[champs] = ""
+                for cel in liste:
+                    print(liste.index(cel))
+                    self.dfr[champs][cel] = anomalie
 
 toto = Analyse()
-toto.vide('Nom')
+#toto.vide('Nom')
 toto.espace('Nom')
 #toto = Analyse.vide(toto,'Nom')
 #help(Analyse)
