@@ -64,13 +64,16 @@ class Analyse:
             if champs in self.dfr.columns:
                 print("champ inexistant")
             else:
-                pcol = len(self.dfr.columns) + 1
-                self.dfr[champs] = ""
+                self.dfr.assign(champs="")
+                i = 0
                 for cel in liste:
                     print(liste.index(cel))
-                    self.dfr[champs][cel] = anomalie
+                    self.dfr.at[liste[i],champs] = anomalie
+                    i += 1
+            print(self.dfr.columns)
 
 toto = Analyse()
+
 #toto.vide('Nom')
 toto.espace('Nom')
 #toto = Analyse.vide(toto,'Nom')
