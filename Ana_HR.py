@@ -2,7 +2,6 @@ from openpyxl import *
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
-import petl as petl
 
 
 class Analyse:
@@ -77,5 +76,5 @@ toto = Analyse()
 #toto.vide('Nom')
 toto.espace('Nom')
 #toto = Analyse.vide(toto,'Nom')
-#help(Analyse) f
+#help(Analyse) frd
 
