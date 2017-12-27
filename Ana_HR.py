@@ -77,5 +77,5 @@ toto = Analyse()
 #toto.vide('Nom')
 toto.espace('Nom')
 #toto = Analyse.vide(toto,'Nom')
-#help(Analyse)
+#help(Analyse) f
 
