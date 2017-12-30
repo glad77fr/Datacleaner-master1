@@ -2,7 +2,8 @@ from openpyxl import *
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
-import petl as petl
+import sys as syst
+
 
 
 class Analyse:
@@ -11,7 +12,8 @@ class Analyse:
     def __init__(self):
         self.localisation = " "
         self.wb = Workbook()
-        self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
+        #self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
+        self.Excel = pd.ExcelFile(r'C:\Users\Sabri\Desktop\Test.xlsx')
         self.df = self.Excel.parse('Feuil1')
         self.dfr = pd.DataFrame() # Stock les réponses
         #print(self.df.iloc[:,0])
@@ -25,8 +27,8 @@ class Analyse:
         self.localisation = askopenfilename()
         print(self.localisation)
 
-    def vide(self,champs):
-        "Méthode permettant de vérifier si une cellule est vide"
+    def vide(self, champs):
+        """"Méthode permettant de vérifier si une cellule est vide"""
         n = 1
         for cel in self.df[champs]:
             if pd.isnull(cel):
@@ -34,8 +36,9 @@ class Analyse:
             n += 1
 
     def espace(self,champs):
-        "Méthode permettant de vérifier si une cellule comporte des espaces en début de chaine"
-        resultat=[]
+        """Méthode permettant de vérifier si une cellule comporte des espaces en début de chaine"""
+        self.__check_variable(champs)
+        resultat = []
         n = 2
         self.df[champs] = self.df[champs].astype(str)
         for cel in self.df[champs]:
@@ -46,7 +49,7 @@ class Analyse:
         self.charg_result(champs, resultat, 'Espace devant le champ')
 
     def doublon(champs):
-        "Méthode permettant de vérifier si une donnée est dupliquée"
+        """Méthode permettant de vérifier si une donnée est dupliquée"""
         n = 1
         o = 0
         for cel in self.df[champs]:
@@ -58,8 +61,8 @@ class Analyse:
                 print(self.df['Nom'][n], ' ', o)
                 n += 1
 
-    def charg_result(self,champs,liste,anomalie):
-        "Permet de charger les résultats dans le dataframe"
+    def charg_result(self, champs,liste,anomalie):
+        """Permet de charger les résultats dans le dataframe"""
         if len(liste) != 0:
             if champs in self.dfr.columns:
                 print("champ inexistant")
@@ -68,14 +71,25 @@ class Analyse:
                 i = 0
                 for cel in liste:
                     print(liste.index(cel))
-                    self.dfr.at[liste[i],champs] = anomalie
+                    self.dfr.at[liste[i], champs] = anomalie
                     i += 1
             print(self.dfr.columns)
+
+    def __check_variable(self, champs):
+        """Méthode interne permettant de vérifier si un champ existe"""
+        for ch in self.df.columns:
+            if ch == champs:
+                res = True
+        if not res:
+            print("Champ inexistant dans le fichier")
+            syst.exit()
+
 
 toto = Analyse()
 
 #toto.vide('Nom')
-toto.espace('Nom')
+toto.espace('Site')
+print(toto.dfr)
 #toto = Analyse.vide(toto,'Nom')
 #help(Analyse) fr
 
