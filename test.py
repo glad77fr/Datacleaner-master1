@@ -1,8 +1,20 @@
 
 import pandas as pd
+a=4
+if a==4 :
+    print('cool')
+else:
+    print('Pas cool')
 
-Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')
-df = Excel.parse('Feuil1')
+def afficher(p):
+    return print(p)
+
+afficher('toto')
+
+def fonction(didi,parameter):
+    return didi(parameter)
+
+fonction(afficher,'Serge')
 #df['Nom'][0].str.count()
 
 
@@ -10,7 +22,6 @@ df = Excel.parse('Feuil1')
 
 #print(df['Prénom'].str.contains('Julie'))
 #print(df['Prénom'].str.find('Julie'))
-print(df['Prénom'].index('Julie'))
 #a = df[df['Prénom']=='Julie']
 
 #print(a)
