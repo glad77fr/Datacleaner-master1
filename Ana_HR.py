@@ -12,7 +12,8 @@ class Analyse:
         self.localisation = " "
         self.wb = Workbook()
         # self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
-        self.Excel = pd.ExcelFile(r'C:\Users\Sabri\Desktop\Test.xlsx')
+        #self.Excel = pd.ExcelFile(r'C:\Users\Sabri\Desktop\Test.xlsx')
+        self.Excel = pd.ExcelFile(r'/Users/sabrigasmi/Desktop/Effectif.xlsx')
         self.df = self.Excel.parse('Feuil1')
         self.dfr = pd.DataFrame()  # Stock les réponses
         # print(self.df.iloc[:,0])
