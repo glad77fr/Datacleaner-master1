@@ -1,7 +1,18 @@
 
+didi = ()
+
+
+def test(a):
+    if a == 1:
+        return False
+
+
+if test(1) is False:
+    print('False')
+
 import pandas as pd
 a=4
-if a==4 :
+if a=4 :
     print('cool')
 else:
     print('Pas cool')
