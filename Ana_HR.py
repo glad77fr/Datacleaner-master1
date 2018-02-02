@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
 import sys as syst
+from xlsxwriter import *
 
 
 class Analyse:
@@ -11,9 +12,9 @@ class Analyse:
     def __init__(self):
         self.localisation = " "
         self.wb = Workbook()
-        # self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
+        self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
         # self.Excel = pd.ExcelFile(r'C:\Users\Sabri\Desktop\Test.xlsx')
-        self.Excel = pd.ExcelFile(r'/Users/sabrigasmi/Desktop/Effectif.xlsx')
+        #self.Excel = pd.ExcelFile(r'/Users/sabrigasmi/Desktop/Effectif.xlsx')
         self.df = self.Excel.parse('Feuil1')
         self.dfr = pd.DataFrame()  # Stock les réponses dans un dataframe
         # print(self.df.iloc[:,0])
@@ -27,13 +28,13 @@ class Analyse:
         self.localisation = askopenfilename()
         print(self.localisation)
 
-    def vide(self, champs, *line):
+    def vide(self, champs, line = None):
         """"Méthode permettant de vérifier si une cellule est vide"""
         self.__check_variable(champs)  # Verification que le champ existe dans le fichier
 
-        if line == "":  # Check que l'option line n'est pas activée
+        if line is None:  # Check que l'option line n'est pas activée
             resultat = []
-            n = 2
+            n = 0
 
             for cel in self.df[champs]:
                 if pd.isnull(cel):
@@ -47,19 +48,20 @@ class Analyse:
             else:
                 return False
 
+
     def espace(self, champs):
         """Méthode permettant de vérifier si une cellule comporte des espaces en début de chaine"""
         self.__check_variable(champs)
         resultat = []
         stockage_str = []
-        n = 2
+        n = 0
         stockage_str = self.df[champs].astype(str)
         for cel in stockage_str:
             if cel[0] == " ":
                 resultat.append(n)
             n += 1
         self.charg_result(champs, resultat, 'Espace devant le champ')
-        print(resultat)
+
 
     def doublon(self, champs):
         """Méthode permettant de vérifier si une donnée est dupliquée"""
@@ -77,8 +79,7 @@ class Analyse:
                 resultat.append(n)
             n += 1
         self.charg_result(champs, resultat, 'Doublon')
-
-
+        print(resultat)
     def charg_result(self, champs, liste, anomalie):
         """Permet de charger les résultats dans un dataframe"""
         if len(liste) != 0:  # vérifie que la liste de résultat n'est pas vide, sinon on s'arrête
@@ -87,14 +88,14 @@ class Analyse:
                 for ch in self.dfr.columns:  # Détermine la position du champ existant dans le résultat
                     if ch != champs:
                         n += 1
-
+                i = 0
                 for cel in liste:  # Détermine si le champ est vide, si oui on remplace 'NaN' par le résultat
-                    i = 0
+
                     if str(self.dfr.iloc[i, n]) != 'nan':
 
                         self.dfr.at[liste[i], champs] = str(self.dfr.iloc[i, n]) + " " + anomalie
                     else:
-                         print(anomalie)
+                         #print(anomalie)
                          self.dfr.at[liste[i], champs] = anomalie
                     i += 1
             else:  # Si le champs n'existe pas, on va le créer dans résultat
@@ -115,14 +116,23 @@ class Analyse:
             print("Erreur, le champs " + champs + " est inexistant dans le fichier")
             syst.exit()
 
+    def exportexcel(self, repertoire, onglet):
+        """Méthode permettant d'extraire le résultat sous forme d'un fichier excel"""
+        writer = pd.ExcelWriter(repertoire, engine='xlsxwriter')
+        self.dfr.to_excel(writer, sheet_name=onglet)
+        writer.save()
+        writer.close()
+
 
 toto = Analyse()
-
-toto.vide('Site',2)
-
-toto.espace('Site')
-toto.doublon('Site')
-print(toto.dfr)
+#toto.vide('Prénom')
+toto.espace('Prénom')
+toto.doublon('Prénom')
+#toto.vide('Site',2)
+toto.exportexcel(r'C:\Users\Sabri.GASMI\Desktop\Jeu2.xlsx','toto')
+#oto.espace('Site')
+#toto.doublon('Site')
+#print(toto.dfr)
 
 # toto.vide('Statut')
 
