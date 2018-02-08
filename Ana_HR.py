@@ -17,7 +17,6 @@ class Analyse:
         #self.Excel = pd.ExcelFile(r'/Users/sabrigasmi/Desktop/Effectif.xlsx')
         self.df = self.Excel.parse('Feuil1')
         self.dfr = pd.DataFrame()  # Stock les réponses dans un dataframe
-        # print(self.df.iloc[:,0])
         self.dfr['Matricule_sal'] = self.df.iloc[:, 0]  # Ajoute le matricule au fichier résultat
         self.dfr['Nom_sal'] = self.df.iloc[:, 1]  # Ajoute les noms au fichier résultat
         self.dfr['Prénom_sal'] = self.df.iloc[:, 2]  # Ajoute les noms au fichier résultat
@@ -48,40 +47,40 @@ class Analyse:
             else:
                 return False
 
-
-    def espace(self, champs):
+    def espace(self, champs2):
         """Méthode permettant de vérifier si une cellule comporte des espaces en début de chaine"""
-        self.__check_variable(champs)
+        self.__check_variable(champs2)
         resultat = []
         stockage_str = []
         n = 0
-        stockage_str = self.df[champs].astype(str)
+        stockage_str = self.df[champs2].astype(str)
         for cel in stockage_str:
             if cel[0] == " ":
                 resultat.append(n)
             n += 1
-        self.charg_result(champs, resultat, 'Espace devant le champ')
+        self.charg_result(champs2, resultat, 'Espace devant le champ')
 
-
-    def doublon(self, champs):
+    def doublon(self, champs1):
         """Méthode permettant de vérifier si une donnée est dupliquée"""
-        self.__check_variable(champs)  # Verification que le champ existe dans le fichier
+        self.__check_variable(champs1)  # Verification que le champ existe dans le fichier
         n = 0
         resultat = []
 
-        for cel in self.df[champs]:
+        for cel in self.df[champs1]:
             occ = 0
             if n != 0:
-                for ligne in self.df[champs]:
+                for ligne in self.df[champs1]:
                     if ligne == cel:
                         occ += 1
             if occ > 1:
                 resultat.append(n)
             n += 1
-        self.charg_result(champs, resultat, 'Doublon')
-        print(resultat)
-    def charg_result(self, champs, liste, anomalie):
+        self.charg_result(champs1, resultat, 'Doublon')
+
+
+    def charg_result(self, champs=None, liste=None, anomalie=None):
         """Permet de charger les résultats dans un dataframe"""
+
         if len(liste) != 0:  # vérifie que la liste de résultat n'est pas vide, sinon on s'arrête
             if champs in self.dfr.columns:  # Vérifie si le champs existe déjà dans les résultats
                 n = 0
@@ -89,22 +88,33 @@ class Analyse:
                     if ch != champs:
                         n += 1
                 i = 0
+                a = 0
+
                 for cel in liste:  # Détermine si le champ est vide, si oui on remplace 'NaN' par le résultat
+                    #if pd.isnull(self.dfr.iloc[i, n]) is True:
 
-                    if str(self.dfr.iloc[i, n]) != 'nan':
-
-                        self.dfr.at[liste[i], champs] = str(self.dfr.iloc[i, n]) + " " + anomalie
+                    #if str(self.dfr.iloc[i, n]) == 'nan':
+                        #print(pd.isnull(self.dfr.iloc[i, n]))
+                    #print(self.dfr.iloc[i, n])
+                    if str((self.dfr.at[liste[i], champs])) == 'nan':
+                        a += 1
+                        self.dfr.at[liste[i], champs] = anomalie
                     else:
-                         #print(anomalie)
-                         self.dfr.at[liste[i], champs] = anomalie
+                        self.dfr.at[liste[i], champs] = str(self.dfr.iloc[i, n]) + " " + anomalie
+                    #print(str(self.dfr.iloc[i, n]))
+                    #else:
+                     #   self.dfr.at[liste[i], champs] ="proute"
+                        #self.dfr.at[liste[i], champs] = str(self.dfr.iloc[i, n]) + " " + anomalie
+                        #print(i)
                     i += 1
+                print(a)
             else:  # Si le champs n'existe pas, on va le créer dans résultat
                 self.dfr.assign(champs="")
                 i = 0
                 for cel in liste:
                     self.dfr.at[liste[i], champs] = anomalie
                     i += 1
-                    # print(self.dfr.columns)
+
 
     def __check_variable(self, champs):
         """Méthode interne permettant de vérifier si un champ existe"""
@@ -123,11 +133,14 @@ class Analyse:
         writer.save()
         writer.close()
 
-
 toto = Analyse()
 #toto.vide('Prénom')
+
 toto.espace('Prénom')
 toto.doublon('Prénom')
+
+
+
 #toto.vide('Site',2)
 toto.exportexcel(r'C:\Users\Sabri.GASMI\Desktop\Jeu2.xlsx','toto')
 #oto.espace('Site')
