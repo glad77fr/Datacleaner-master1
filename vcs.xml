@@ -6,6 +6,10 @@
           <option name="url" value="https://github.com/glad77fr/Datacleaner-master1" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/glad77fr/Datacleaner-master1.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\Sabri\PycharmProjects" />
