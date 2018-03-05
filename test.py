@@ -2,12 +2,12 @@ import pandas as pd
 from xlsxwriter import *
 
 
-class Toto(Workbook):
+def titi(a):
+    print(a)
 
-    def __del__(self):
-        """Close file in destructor if it hasn't been closed explicitly."""
-        try:
-            if not self.fileclosed:
-                self.close()
-        except:
-            print('lool')
+def toto(b):
+    print(b.upper())
+exec('titi(3)')
+
+exec("toto(\'lol\')")
+

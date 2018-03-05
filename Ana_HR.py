@@ -1,4 +1,4 @@
-from openpyxl import *
+#from openpyxl import *
 import tkinter as tk
 from tkinter.filedialog import askopenfilename
 import pandas as pd
@@ -12,10 +12,11 @@ class Analyse:
     def __init__(self):
         self.localisation = " "
         self.wb = Workbook()
-        self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
+        #self.Excel = pd.ExcelFile(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx')  # Chargement du fichier excel
         # self.Excel = pd.ExcelFile(r'C:\Users\Sabri\Desktop\Test.xlsx')
         #self.Excel = pd.ExcelFile(r'/Users/sabrigasmi/Desktop/Effectif.xlsx')
-        self.df = self.Excel.parse('Feuil1')
+        self.Excel = pd.ExcelFile(r'D:\Users\sgami\Desktop\Test.xlsx')
+        self.df = self.Excel.parse('Test')
         self.dfr = pd.DataFrame()  # Stock les réponses dans un dataframe
         self.dfr['Matricule_sal'] = self.df.iloc[:, 0]  # Ajoute le matricule au fichier résultat
         self.dfr['Nom_sal'] = self.df.iloc[:, 1]  # Ajoute les noms au fichier résultat
@@ -68,7 +69,6 @@ class Analyse:
             else:
                 return False
         self.charg_result(champs, resultat, 'Espace devant le champ')
-
 
     def doublon(self, champs1):
         """Méthode permettant de vérifier si une donnée est dupliquée"""
@@ -130,12 +130,12 @@ class Analyse:
 
 toto = Analyse()
 #toto.espace('Prénom')
-toto.doublon('Prénom')
-toto.vide('Prénom')
-print(toto.espace('Prénom', 3))
-print(toto.vide('Code Analytique',0))
+toto.espace('Prénom')
+#toto.vide('Prénom')
+#print(toto.espace('Prénom', 3))
+#print(toto.vide('Code Analytique',0))
 #toto.vide('Site',2)
-toto.exportexcel(r'C:\Users\Sabri.GASMI\Desktop\Jeu2.xlsx', 'toto')
+toto.exportexcel(r'D:\Users\sgami\Desktop\resultat.xlsx', 'toto')
 
 #toto.doublon('Site')
 #print(toto.dfr)
