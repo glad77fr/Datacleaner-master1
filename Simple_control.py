@@ -31,7 +31,7 @@ class Simple_control:
 
 #    def __set__self.control_name(self, value):
     #    if not isinstance(value, int):
-        #    raise TypeError("bar must be set to a string")
+        #    raise TypeError("bar must be set to a string") ggGg
 
 Excel = pd.ExcelFile(r'D:\Users\sgami\Desktop\Test.xlsx')
 df = Excel.parse('Test')
