@@ -35,7 +35,7 @@ class Simple_control:
         if not isinstance(self.text_result, pd.DataFrame):  # control if text_result is a DataFrame
             raise TypeError("showed must be set to an interger")
 
-        self.__check_column()   # call check method to searched if column_name exist in the dataframe 'source'
+        #self.__check_column()   # call check method to searched if column_name exist in the dataframe 'source'
 
     def __check_column(self):
         """Check if searched column exist"""
@@ -54,7 +54,9 @@ class Simple_control:
 
 #Excel = pd.ExcelFile(r'D:\Users\sgami\Desktop\Test.xlsx') #Eurovia
 #Excel = pd.ExcelFile(r'C:\Users\Sabri\Desktop\Test.xlsx') # Pc maison
-
-#df = Excel.parse('Test')
-#test = Simple_control("test", "Matricule", "Anomalie etrange", df, 1)
+#Excel = pd.ExcelFile(r'D:\Users\sgasmi\Desktop\data3.xlsx')
+#df = Excel.parse('data3')
+#a = "Test"
+#test = Simple_control(a, "Matricule", "Anomalie etrange",df, df,df,1)
+#test = Simple_control("test", "Matricule", "Anomalie etrange",df, df,df,1)
 #test.colonne()
