@@ -16,17 +16,16 @@ class Control_center:
         try:
             self.Excel = pd.ExcelFile(self.path_datasource)
             self.datasource = self.Excel.parse(self.worksheets)
-            self.datasource = self.Excel.parse('data3')
-
         except:
             print("the excel file doest exist")
 
     def empty(self, column_name, showed, control_name="Empty_Test", error_message="Empty"):
-        control = sp.Simple_control(control_name, column_name, error_message,self.datasource, self.bool_result,self.text_result,showed)
+        control_empty = sp.Simple_control(control_name, column_name, error_message, self.datasource, showed)
+        control_empty.bool_result = pd.isna(self.datasource[column_name]) # Check empty cells and update bool_result list
+        control_empty.build_text_result()
+        print(control_empty.text_result)
 
-#ef __init__(self, control_name, column_name, error_message, source, bool_result,text_result, showed=0):
 
+montest = Control_center(r'D:\Users\sgasmi\Desktop\source.xlsx', 'source')
 
-#montest = Control_center(r'C:\Users\Sabri\Desktop\Test.xlsx')
-montest = Control_center(r'D:\Users\sgasmi\Desktop\data3.xlsx', 'data3')
-montest.empty("Nom", 0, "Vide", "haa")
+montest.empty("Nom", 1, "Vide", "haa")
