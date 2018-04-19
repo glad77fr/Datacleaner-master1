@@ -11,8 +11,6 @@ class Simple_control:
         self.showed = showed  # Booleean control, if 0 then the anomalie will be invisible in the rapport, if 1 it will be visible
         self.boolean_control = []  # List where boolean results of anomaly control will be stored
         self.commented_anomaly = []  # list where commented anomaly will be stored
-        self.bool_result = []  # List of boolean control result
-        self.text_result = []   # List  of text control result
 
         if not isinstance(self.control_name, str):  # control if control_name is a string
             raise TypeError("control_name must be set to a string")
@@ -29,9 +27,6 @@ class Simple_control:
         if not isinstance(self.showed, int):  # control if showed is an integer
             raise TypeError("showed must be set to an interger")
 
-        if not isinstance(self.bool_result, list):  # control if bool_result is a DataFrame
-            raise TypeError("bool_result, must be set to an DataFrame")
-
         self.__check_column()   # call check method to searched if column_name exist in the dataframe 'source'
 
     def __check_column(self):
@@ -46,8 +41,12 @@ class Simple_control:
 
     def build_text_result(self):
         if self.showed == 1:
-            self.text_result = self.bool_result
-            self.text_result = [self.error_message if x is True else "" for x in self.text_result]
+            self.commented_anomaly = self.boolean_control
+            self.commented_anomaly = [self.error_message if x is True else "" for x in self.commented_anomaly]
+
     def colonne(self):
         print(self.source.columns)
+
+
+
 

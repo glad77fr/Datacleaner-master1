@@ -127,12 +127,14 @@ class Analyse:
         self.dfr.to_excel(writer, sheet_name=onglet)
         writer.save()
 
+    """
     def complexe_control(self,*controles,nom_controle):
         "Méthode permettrant de réaliser des contrôles complexes combinant plusieurs contrôles"
         resultat = []
         for val in self.df:
             for ctrl in controles:
-                if ctrl == false
+                if ctrl == False
+                """
 
 toto = Analyse()
 #toto.espace('Prénom')

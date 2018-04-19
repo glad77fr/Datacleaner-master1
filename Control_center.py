@@ -21,11 +21,33 @@ class Control_center:
 
     def empty(self, column_name, showed, control_name="Empty_Test", error_message="Empty"):
         control_empty = sp.Simple_control(control_name, column_name, error_message, self.datasource, showed)
-        control_empty.bool_result = pd.isna(self.datasource[column_name]) # Check empty cells and update bool_result list
-        control_empty.build_text_result()
-        print(control_empty.text_result)
+        control_empty.boolean_control = pd.isna(self.datasource[column_name]) # Check empty cells and update bool_result list
+        self.update_DataFrame(control_empty)
+
+    def update_DataFrame(self, control):
+
+        if not isinstance(control, sp.Simple_control): #Load bool result in the DataFrame
+            raise TypeError("control must be a Simple_control")
+
+        if control.control_name not in self.bool_result.columns:
+
+            self.bool_result.insert(0, str(control.control_name), "")
+
+        for i, cel in enumerate(control.boolean_control):
+            self.bool_result.at[i, control.control_name] = cel
+
+        if control.showed == 1:     #Load text result in the DataFrame
+            if control.control_name not in self.text_result.columns:
+                self.text_result.insert(0, str(control.control_name), "")
+                control.build_text_result()
+
+            for i, cel in enumerate(control.commented_anomaly):
+                self.text_result.at[i, control.control_name] = cel
 
 
-montest = Control_center(r'D:\Users\sgasmi\Desktop\source.xlsx', 'source')
+montest = Control_center(r'C:\Users\Sabri.GASMI\Desktop\Jeu.xlsx', 'Feuil1')
 
-montest.empty("Nom", 1, "Vide", "haa")
+montest.empty("Nom", 1, "Toto", "haa")
+montest.empty("Prénom", 1, "CTR", "fgg")
+
+print(montest.text_result)
