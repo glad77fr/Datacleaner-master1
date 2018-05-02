@@ -1,17 +1,12 @@
-import pandas as pd
-from xlsxwriter import *
+import operator
 
-a = pd.DataFrame({'Maison': ["Rouge", "Jaune"], 'Chien': ["Vilain", "cool"]})
+ops = {"+": operator.add,
+       "-": operator.sub,
+       "*": operator.mul,
+       "/": operator.div}
 
-print(a)
-print(a.columns.isin(['ff']))
-
-def titi(a):
-    print(a)
-
-def toto(b):
-    print(b.upper())
-#exec('titi(3)')
-
-#exec("toto(\'lol\')")
-
+op_char = "+"
+op_func = ops[op_char]
+a=3
+b=78
+result = op_func(a, b)
