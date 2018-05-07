@@ -1,5 +1,6 @@
 import pandas as pd
 import Simple_control as sp
+import time
 
 
 class Control_center:
@@ -41,12 +42,15 @@ class Control_center:
     def empty(self, column_name, showed, control_name="Empty_Test", error_message="Empty"):
         control_empty = sp.Simple_control(control_name, column_name, error_message, self.datasource, showed)
         control_empty.boolean_control = pd.isna(self.datasource[column_name]) # Check empty cells and update bool_result list
+
         self.update_DataFrame(control_empty)
 
     def nonempty(self, column_name, showed, control_name="Nonempty_Test", error_message="Nonempty"):
         control_nonempty= sp.Simple_control(control_name, column_name, error_message, self.datasource, showed)
         control_nonempty.boolean_control = pd.notnull(self.datasource[column_name])
+
         self.update_DataFrame(control_nonempty)
+
 
     def update_DataFrame(self, control):
 
@@ -58,6 +62,7 @@ class Control_center:
             self.bool_result.insert(0, str(control.control_name), "")
 
         for i, cel in enumerate(control.boolean_control):
+
             self.bool_result.at[i, control.control_name] = cel
 
         if control.showed == 1:     #Load text result in the DataFrame
@@ -72,12 +77,17 @@ class Control_center:
         print(self.bool_result.columns)
 
 montest = Control_center(r'D:\Users\sgasmi\Desktop\Source.xlsx', 'source')
-
+t1 = time.clock()
 montest.empty("Nom", 1, "Toto", "haa")
 montest.empty("Prénom", 1, "CTR", "fgg")
 montest.nonempty("Nom",1,"gg", "Non vide")
+montest.empty("Date de naissance", 1, "Date naiss", "Date naissance vide")
+montest.empty("Clé situation de famille", 1, "Ctr Clé situation de famille", "Situation vide")
 montest.first_raws("Matricule", "Nom")
-print(montest.bool_result)
+t2 = time.clock()
+
+print(t2 - t1)
+print(montest.text_result)
 """
 cols = df.columns.tolist()
 >>> cols = [cols[-1]]+cols[:-1] # or whatever change you need
