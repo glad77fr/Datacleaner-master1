@@ -1,17 +1,33 @@
-import pandas as pd
-from xlsxwriter import *
+import operator
+import itertools
+"""
+ops = {"+": operator.add,
+       "-": operator.sub,
+       "*": operator.mul}
 
-a = pd.DataFrame({'Maison': ["Rouge", "Jaune"], 'Chien': ["Vilain", "cool"]})
+op_char = "+"
+op_func = ops[op_char]
+a=3
+b=78
+result = op_func(a, b)
+print(result)
 
-print(a)
-print(a.columns.isin(['ff']))
+"""
+test ="A*B-C"
 
-def titi(a):
-    print(a)
+def bool_result(test):
+       #Extraction des signes
+       signe = []
+       for char in test:
+              print(char)
+              if char in ["*","-"]:
+                     signe.append(char)
 
-def toto(b):
-    print(b.upper())
-#exec('titi(3)')
+       print(signe)
+bool_result(test)
 
-#exec("toto(\'lol\')")
+malist=list(itertools.product([0,1], repeat=4))
 
+for el in malist:
+       for e in el:
+              print(e)
