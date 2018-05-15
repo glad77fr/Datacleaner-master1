@@ -12,7 +12,6 @@ class Control_center:
         self.worksheets = worksheets    # worksheets of the Excel source file
         self.__load_excel_datasource()  # transfer of the excel file containing data to source DataFrame
 
-
     def __load_excel_datasource(self):
 
         try:
