@@ -2,8 +2,8 @@ import pandas as pd
 import sys as syst
 
 
-class Simple_control:
-    def __init__(self, control_name, column_name, error_message, source, showed=0):
+class Simple_control():
+    def __init__(self, control_name, column_name , error_message, source, showed=0):
         self.control_name = control_name  # name of control
         self.column_name = column_name  # name of column that will be controled
         self.error_message = error_message  # error message of control
@@ -11,7 +11,9 @@ class Simple_control:
         self.showed = showed  # Booleean control, if 0 then the anomalie will be invisible in the rapport, if 1 it will be visible
         self.boolean_control = []  # List where boolean results of anomaly control will be stored
         self.commented_anomaly = []  # list where commented anomaly will be stored
+        self.__control_attr()
 
+    def __control_attr(self):
         if not isinstance(self.control_name, str):  # control if control_name is a string
             raise TypeError("control_name must be set to a string")
 
@@ -19,6 +21,7 @@ class Simple_control:
             raise TypeError("column_name must be set to a string")
 
         if not isinstance(self.error_message, str):  # control if error_message is a string
+            print(self.error_message)
             raise TypeError("error_message must be set to a string")
 
         if not isinstance(self.source, pd.DataFrame):  # source if error_message is a DataFrame

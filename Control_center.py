@@ -39,17 +39,16 @@ class Control_center:
             self.text_result = self.text_result[cols]
 
     def empty(self, column_name, showed, control_name="Empty_Test", error_message="Empty"):
-        control_empty = sp.Simple_control(control_name, column_name, error_message, self.datasource, showed)
+        control_empty = sp.Simple_control(control_name, error_message, self.datasource, showed, column_name)
         control_empty.boolean_control = pd.isna(self.datasource[column_name]) # Check empty cells and update bool_result list
 
         self.update_DataFrame(control_empty)
 
     def nonempty(self, column_name, showed, control_name="Nonempty_Test", error_message="Nonempty"):
-        control_nonempty= sp.Simple_control(control_name, column_name, error_message, self.datasource, showed)
+        control_nonempty= sp.Simple_control(control_name,  error_message, self.datasource, showed,column_name)
         control_nonempty.boolean_control = pd.notnull(self.datasource[column_name])
 
         self.update_DataFrame(control_nonempty)
-
 
     def update_DataFrame(self, control):
 
