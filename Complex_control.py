@@ -9,11 +9,16 @@ class Complex_control():
         self.error_message = error_message  # error message of control
         self.source = source  # source of control
         self.control_validation = control_validation # text that detail the logic control
-        self.showed = showed  # Booleean control, if 0 then the anomalie will be invisible in the rapport, if 1 it will be visible
+        self.showed = showed  # Booleean control, if 0 then the anomaly will be invisible, if 1 it will be visible
         self.boolean_control = []  # List where boolean results of anomaly control will be stored
         self.boolean_truth =[] # List of boolean value that are accepted as true
+        self.list_control = []
         self.__control_attr()
         self.__bool_transformation()
+        self.__build_list_control()
+        self.__list_intermediate = [] # List the booleans values of the control
+        self.__build___list_intermediate()
+
 
     def __control_attr(self):
         if not isinstance(self.control_name, str):  # control if control_name is a string
@@ -71,7 +76,6 @@ class Complex_control():
                 for j, val in enumerate(list2):
                     res.append(el + val)
         return res
-
 
     def __bool_transformation(self):
         list_validation = []
@@ -158,6 +162,36 @@ class Complex_control():
                         list_validation.append(val)
         print(list_validation)
 
+    def __build_list_control(self):
+        control_validation = self.control_validation
+        self.list_control=re.split('[-*~]', control_validation)
+
+    def __build___list_intermediate(self):
+        for i, val in enumerate (self.list_control):
+            res=[]
+
+            for val in list(self.source[val].tolist()):
+                res.append([val])
+
+            if not self.__list_intermediate:
+
+                for val in res:
+                    self.__list_intermediate.append(val)
+            else:
+                print(res)
+                self.__list_intermediate = list(zip(self.__list_intermediate,res))
+
+
+
+        print("Le test",self.__list_intermediate[1],self.__list_intermediate[1] in [[1,0]])
+        print(self.__list_intermediate)
+
+
+
+
+
+
 
 data_source = pd.DataFrame()
-a= Complex_control("Complexe","flflf",data_source,"dld-ljjj",1)
+
+#a = Complex_control("Complexe","flflf",data_source,"dldl*jjj",1)

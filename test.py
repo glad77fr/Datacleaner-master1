@@ -17,7 +17,25 @@ result = op_func(a, b)
 print(result)
 
 """
-a="bal*df-k*fk ht"
+
+a = [['a'], ['c']]
+b = [['d'],  ['e']]
+c = list(zip(a,b))
+print(c[0])
+
+#print(list(zip(['a', 'b', 'c'], ['d', 'e', 'f'])))
+
+
+
+print(zip(a,b))
+
+a = [[False,False],[False,False]]
+b = [[1,1]]
+for i,val in enumerate(a):
+    if a[i] in b:
+        print("ok")
+
+a="bal*dfs*f-k*fk ht"
 g =re.split('[-*]',a)
 print(g)
 
