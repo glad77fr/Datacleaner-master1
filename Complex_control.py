@@ -20,6 +20,7 @@ class Complex_control():
         self.__build___list_intermediate()
 
 
+
     def __control_attr(self):
         if not isinstance(self.control_name, str):  # control if control_name is a string
             raise TypeError("control_name must be set to a string")
@@ -101,7 +102,6 @@ class Complex_control():
                 if prev_val == "~":
                     code_validation = code_validation + "X" + str(cpt)
                     cpt = 0
-
                 cpt += 1
                 prev_val = "*"
 
@@ -133,7 +133,7 @@ class Complex_control():
             if i == len(bool_validation) - 1 and prev_val == "*":
                 code_validation = code_validation + "E" + str(cpt)
 
-        for i, val in enumerate(code_validation):
+        for i, val in enumerate(code_validation): #Transform code validation into boolean validation
             if val == "E":
                 if list_validation:
                     l = []
@@ -143,7 +143,7 @@ class Complex_control():
                     j.append(l)
                     list_validation = self.__ins(list_validation, j)
                 else:
-                    l = []
+                    l = [1]
                     for n in range(int(code_validation[1])):
                         l.append(1)
                     list_validation.append(l)
@@ -160,7 +160,7 @@ class Complex_control():
                 else:
                     for j, val in enumerate(self.__bin_count_xor(int(code_validation[i + 1]))):
                         list_validation.append(val)
-        print(list_validation)
+        print(list_validation, "liste 1")
 
     def __build_list_control(self):
         control_validation = self.control_validation
@@ -171,20 +171,22 @@ class Complex_control():
             res=[]
 
             for val in list(self.source[val].tolist()):
-                res.append([val])
+                res.append(val)
+
 
             if not self.__list_intermediate:
 
                 for val in res:
                     self.__list_intermediate.append(val)
             else:
-                print(res)
-                self.__list_intermediate = list(zip(self.__list_intermediate,res))
+
+                x = [[i, j] for i, j in zip(self.__list_intermediate, res)]
+                self.__list_intermediate = [[i,j] for i, j in zip(self.__list_intermediate,res)]
 
 
-
-        print("Le test",self.__list_intermediate[1],self.__list_intermediate[1] in [[1,0]])
         print(self.__list_intermediate)
+        print(x)
+
 
 
 

@@ -1,8 +1,11 @@
 import operator
 import itertools
 import re
+import pandas as pd
 import numpy as np
 import numpy
+
+
 
 """
 ops = {"+": operator.add,
@@ -16,7 +19,40 @@ b=78
 result = op_func(a, b)
 print(result)
 
+
+a=[1,2,3,4,5,6]
+
+b=[7,8,9,10,11,12]
+
+k=[3,3,5]
+v=[10,3,5]
+
+y = list(zip(a,b,k,v))
+j =[]
+for val in y:
+    j.append(list(val))
+
 """
+
+
+a=[3,4]
+b=[1,9]
+c=[8,4]
+
+d= {'C1': a,'C2':b,'C3':c}
+h = pd.DataFrame(data=d)
+
+print(h)
+
+def fus():
+    a=[]
+    for i, val in enumerate(h.itertuples()):
+        a.append(
+            h[])
+#y = [[i, j] for i, j in zip(x,k)]
+#print(x)
+
+
 
 a = [['a'], ['c']]
 b = [['d'],  ['e']]
@@ -24,10 +60,10 @@ c = list(zip(a,b))
 print(c[0])
 
 #print(list(zip(['a', 'b', 'c'], ['d', 'e', 'f'])))
-
-
-
-print(zip(a,b))
+a = True
+b = True
+c = False
+print (a and b or c, "cool")
 
 a = [[False,False],[False,False]]
 b = [[1,1]]
