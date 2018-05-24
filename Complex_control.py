@@ -167,6 +167,7 @@ class Complex_control():
         self.list_control=re.split('[-*~]', control_validation)
 
     def __build___list_intermediate(self):
+        nb = 1
         for i, val in enumerate (self.list_control):
             res=[]
 
@@ -179,13 +180,17 @@ class Complex_control():
                 for val in res:
                     self.__list_intermediate.append(val)
             else:
+                if nb == 1:
+                    nb = 2
+                    self.__list_intermediate = [[i,j] for i, j in zip(self.__list_intermediate,res)]
+                    print("ok",nb)
+                else:
+                    for i, val in enumerate(range(len(self.__list_intermediate))):
+                        self.__list_intermediate[i].append(res[i])
 
-                x = [[i, j] for i, j in zip(self.__list_intermediate, res)]
-                self.__list_intermediate = [[i,j] for i, j in zip(self.__list_intermediate,res)]
 
 
         print(self.__list_intermediate)
-        print(x)
 
 
 

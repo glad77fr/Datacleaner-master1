@@ -75,9 +75,9 @@ class Control_center:
     def list_columns(self):
         print(self.bool_result.columns)
 
-#montest = Control_center(r'D:\Users\sgasmi\Desktop\Source.xlsx', 'source')
+montest = Control_center(r'D:\Users\sgasmi\Desktop\Source.xlsx', 'source')
 
-montest = Control_center(r'C:\Users\Sabri.GASMI\Desktop\Jeu - Copie.xlsx', 'Feuil1')
+#montest = Control_center(r'C:\Users\Sabri.GASMI\Desktop\Jeu - Copie.xlsx', 'Feuil1')
 t1 = time.clock()
 
 
@@ -85,7 +85,7 @@ t1 = time.clock()
 montest.empty("Nom", 1, "Nom", "haa")
 montest.empty("Prénom", 1, "Prénom", "fgg")
 montest.nonempty("Nom",1,"gg", "Non vide")
-test = cp.Complex_control("TestC","Erreur",montest.bool_result,"Nom-Prénom",0)
+test = cp.Complex_control("TestC","Erreur",montest.bool_result,"Nom*Prénom*Nom*Prénom",0)
 """
 montest.empty("Date de naissance", 1, "Date naiss", "Date naissance vide")
 montest.empty("Clé situation de famille", 1, "Ctr Clé situation de famille", "Situation vide")

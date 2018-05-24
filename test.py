@@ -5,7 +5,56 @@ import pandas as pd
 import numpy as np
 import numpy
 
+la=[[2,3,4],[2,3,4]]
+li = [1,2]
 
+
+print(la)
+m=[]
+for i,val in enumerate(range(len(la))):
+    la[i].append(li[i])
+print(la)
+r=[[1,2],[3,5]]
+y=[[[1,3],3],[[2,3],4]]
+
+
+print(y[0][0])
+def dimlist(Liste):
+    l = []
+    for i, val in enumerate(range((len(Liste[0])))):
+        for j, val2 in enumerate(Liste):
+            l.append(Liste[i][j])
+    return l
+
+
+for i, val in enumerate(range(int((len(y))/2))):
+    print(i)
+
+print(dimlist(r),"cool")
+print(dimlist(y))
+
+for i, val in enumerate(range((len(r[0])))):
+   for j, val2 in enumerate(r):
+      print(r[i][j])
+
+
+
+print(r[0][0],r[1][0],r[0][1],r[1][1])
+'''for i, val in enumerate r:
+    for y,val2 in len(val):
+        print(val[i-1][y])'''
+
+g =[4,3]
+
+m = list(zip(r,[g]))
+t=[[i,j] for i,j in zip(r,g)]
+print(t)
+#t = [[i,j,k] for i,j,k in zip(r,g,c)]
+#print(t)
+a = ['a', 'c']
+b = ['d',  'e']
+c = list(zip(a,b))
+print(list(c))
 
 """
 ops = {"+": operator.add,
@@ -41,9 +90,9 @@ c=[8,4]
 
 d= {'C1': a,'C2':b,'C3':c}
 h = pd.DataFrame(data=d)
-
-print(h)
-
+g = list(itertools.chain(a, b, c))
+print(g)
+"""
 def fus():
     a=[]
     for i, val in enumerate(h.itertuples()):
@@ -52,12 +101,9 @@ def fus():
 #y = [[i, j] for i, j in zip(x,k)]
 #print(x)
 
+"""
 
 
-a = [['a'], ['c']]
-b = [['d'],  ['e']]
-c = list(zip(a,b))
-print(c[0])
 
 #print(list(zip(['a', 'b', 'c'], ['d', 'e', 'f'])))
 a = True
