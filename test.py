@@ -5,6 +5,26 @@ import pandas as pd
 import numpy as np
 import numpy
 
+z=[[True,True],[False,False]]
+y =[[1,1]]
+print(z in y)
+
+for i,val in enumerate(z):
+    if z[i] in y:
+        print("ok")
+    else:
+        print("ko")
+
+g = [[False, False], [True, True]]
+k = [[1, 1]]
+for i,val in enumerate(g):
+    print(g[i])
+    if g[i] in k:
+        print("ok")
+
+a=[[1, 1]]
+b = [[True,True]]
+print(b in a)
 la=[[2,3,4],[2,3,4]]
 li = [1,2]
 
@@ -116,10 +136,8 @@ b = [[1,1]]
 for i,val in enumerate(a):
     if a[i] in b:
         print("ok")
+    else: print("grrr")
 
-a="bal*dfs*f-k*fk ht"
-g =re.split('[-*]',a)
-print(g)
 
 
 test ="A*B-C"

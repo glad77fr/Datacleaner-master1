@@ -53,8 +53,8 @@ class Control_center:
 
     def update_DataFrame(self, control):
 
-        if not isinstance(control, sp.Simple_control): #Load bool result in the DataFrame
-            raise TypeError("control must be a Simple_control")
+        if not isinstance(control, sp.Simple_control) and not isinstance(control, cp.Complex_control): #Load bool result in the DataFrame
+            raise TypeError("control must be a Simple_control or a Complex_control")
 
         if control.control_name not in self.bool_result.columns:
 
@@ -75,26 +75,32 @@ class Control_center:
     def list_columns(self):
         print(self.bool_result.columns)
 
+
+    def complex_control(self,control_name, error_message, control_validation,showed):
+        comp_c = cp.Complex_control(control_name, error_message, self.bool_result,control_validation,showed)
+
+        self.update_DataFrame(comp_c)
+
 montest = Control_center(r'D:\Users\sgasmi\Desktop\Source.xlsx', 'source')
 
 #montest = Control_center(r'C:\Users\Sabri.GASMI\Desktop\Jeu - Copie.xlsx', 'Feuil1')
 t1 = time.clock()
 
 
-
 montest.empty("Nom", 1, "Nom", "haa")
 montest.empty("Prénom", 1, "Prénom", "fgg")
 montest.nonempty("Nom",1,"gg", "Non vide")
-test = cp.Complex_control("TestC","Erreur",montest.bool_result,"Nom*Prénom*Nom*Prénom",0)
+montest.complex_control("TestC","Erreur","Nom*Prénom",1)
+#test = cp.Complex_control("TestC","Erreur",montest.bool_result,"Nom*Prénom",0)
 """
 montest.empty("Date de naissance", 1, "Date naiss", "Date naissance vide")
 montest.empty("Clé situation de famille", 1, "Ctr Clé situation de famille", "Situation vide")
 montest.first_raws("Matricule", "Nom")
 """
 t2 = time.clock()
-
+print(montest.text_result)
 print(t2 - t1)
-#print(montest.text_result)
+
 """
 cols = df.columns.tolist()
 >>> cols = [cols[-1]]+cols[:-1] # or whatever change you need
