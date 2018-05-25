@@ -3,7 +3,7 @@ import sys as syst
 
 
 class Simple_control():
-    def __init__(self, control_name, column_name , error_message, source, showed=0):
+    def __init__(self, control_name, column_name , error_message, source, showed=0,reverse="F"):
         self.control_name = control_name  # name of control
         self.column_name = column_name  # name of column that will be controled
         self.error_message = error_message  # error message of control
@@ -11,6 +11,7 @@ class Simple_control():
         self.showed = showed  # Booleean control, if 0 then the anomalie will be invisible in the rapport, if 1 it will be visible
         self.boolean_control = []  # List where boolean results of anomaly control will be stored
         self.commented_anomaly = []  # list where commented anomaly will be stored
+        self.reverse = reverse # if T, true boolean result will be transform into false
         self.__control_attr()
 
     def __control_attr(self):

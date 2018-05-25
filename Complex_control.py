@@ -4,7 +4,7 @@ import re
 
 class Complex_control():
 
-    def __init__(self, control_name, error_message, source,control_validation,showed):
+    def __init__(self, control_name, error_message, source, control_validation, showed, reverse="F"):
         self.control_name = control_name  # name of control
         self.error_message = error_message  # error message of control
         self.source = source  # source of control
@@ -18,6 +18,7 @@ class Complex_control():
         self.__build_list_control() # Fueling of list_control (that contains the list of control that will be manipulate)
         self.__list_intermediate = [] # List the booleans values of the control
         self.__build___list_intermediate() # Method that is fueling list_intermemiate
+        self.reverse= reverse
         self.__build_boolean_control()
 
 
