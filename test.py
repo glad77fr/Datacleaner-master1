@@ -5,40 +5,12 @@ import pandas as pd
 import numpy as np
 import numpy
 
-z=[[True,True],[False,False]]
-y =[[1,1]]
-print(z in y)
-
-for i,val in enumerate(z):
-    if z[i] in y:
-        print("ok")
-    else:
-        print("ko")
-
-g = [[False, False], [True, True]]
-k = [[1, 1]]
-for i,val in enumerate(g):
-    print(g[i])
-    if g[i] in k:
-        print("ok")
-
-a=[[1, 1]]
-b = [[True,True]]
-print(b in a)
-la=[[2,3,4],[2,3,4]]
-li = [1,2]
+a = "plouffldle"
+print(a.startswith(("fl","plouf")))
 
 
-print(la)
-m=[]
-for i,val in enumerate(range(len(la))):
-    la[i].append(li[i])
-print(la)
-r=[[1,2],[3,5]]
-y=[[[1,3],3],[[2,3],4]]
 
 
-print(y[0][0])
 def dimlist(Liste):
     l = []
     for i, val in enumerate(range((len(Liste[0])))):
