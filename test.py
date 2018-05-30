@@ -5,10 +5,17 @@ import pandas as pd
 import numpy as np
 import numpy
 
+a = [1,3,4]
+
+print(a[-1])
+g="totl "
+
+
+if g[-1] == " ":
+    print("fkfkfk")
+
 a = "plouffldle"
 print(a.startswith(("fl","plouf")))
-
-
 
 
 def dimlist(Liste):
