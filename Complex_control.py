@@ -4,7 +4,7 @@ import re
 
 class Complex_control():
 
-    def __init__(self, control_name, error_message, source,control_validation,showed):
+    def __init__(self, control_name, error_message, source, control_validation, showed, reverse="F"):
         self.control_name = control_name  # name of control
         self.error_message = error_message  # error message of control
         self.source = source  # source of control
@@ -12,12 +12,14 @@ class Complex_control():
         self.showed = showed  # Booleean control, if 0 then the anomaly will be invisible, if 1 it will be visible
         self.boolean_control = []  # List where boolean results of anomaly control will be stored
         self.boolean_truth =[] # List of boolean value that are accepted as true
-        self.list_control = []
+        self.list_control = [] # List of control that will be check
         self.__control_attr()
         self.__bool_transformation()
-        self.__build_list_control()
+        self.__build_list_control() # Fueling of list_control (that contains the list of control that will be manipulate)
         self.__list_intermediate = [] # List the booleans values of the control
-        self.__build___list_intermediate()
+        self.__build___list_intermediate() # Method that is fueling list_intermemiate
+        self.reverse= reverse
+        self.__build_boolean_control()
 
 
     def __control_attr(self):
@@ -37,6 +39,11 @@ class Complex_control():
         if not isinstance(self.error_message, str):  # control if error_message is a string
             print(self.error_message)
             raise TypeError("error_message must be set to a string")
+
+    def build_text_result(self):
+        if self.showed == 1:
+            self.commented_anomaly = self.boolean_control
+            self.commented_anomaly = [self.error_message if x is True else "" for x in self.commented_anomaly]
 
     def __bin_count_or(self,val):
         # Transformation into table of truth for or values
@@ -101,7 +108,6 @@ class Complex_control():
                 if prev_val == "~":
                     code_validation = code_validation + "X" + str(cpt)
                     cpt = 0
-
                 cpt += 1
                 prev_val = "*"
 
@@ -133,7 +139,7 @@ class Complex_control():
             if i == len(bool_validation) - 1 and prev_val == "*":
                 code_validation = code_validation + "E" + str(cpt)
 
-        for i, val in enumerate(code_validation):
+        for i, val in enumerate(code_validation): #Transform code validation into boolean validation
             if val == "E":
                 if list_validation:
                     l = []
@@ -143,11 +149,10 @@ class Complex_control():
                     j.append(l)
                     list_validation = self.__ins(list_validation, j)
                 else:
-                    l = []
+                    l = [1]
                     for n in range(int(code_validation[1])):
                         l.append(1)
                     list_validation.append(l)
-
             if val == "O":
                 if list_validation:
                     list_validation = self.__ins(list_validation, self.__bin_count_or(int(code_validation[i + 1])))
@@ -160,38 +165,38 @@ class Complex_control():
                 else:
                     for j, val in enumerate(self.__bin_count_xor(int(code_validation[i + 1]))):
                         list_validation.append(val)
-        print(list_validation)
 
-    def __build_list_control(self):
+        self.boolean_truth = list_validation
+
+    def __build_list_control(self): #Extract a list of the control that will be check
         control_validation = self.control_validation
         self.list_control=re.split('[-*~]', control_validation)
 
-    def __build___list_intermediate(self):
+    def __build___list_intermediate(self): #Create the table that contain all the boolean value of the controls
+        nb = 1
         for i, val in enumerate (self.list_control):
             res=[]
 
             for val in list(self.source[val].tolist()):
-                res.append([val])
+                res.append(val)
 
             if not self.__list_intermediate:
 
                 for val in res:
                     self.__list_intermediate.append(val)
             else:
-                print(res)
-                self.__list_intermediate = list(zip(self.__list_intermediate,res))
+                if nb == 1:
+                    nb = 2
+                    self.__list_intermediate = [[i,j] for i, j in zip(self.__list_intermediate,res)]
+                else:
+                    for i, val in enumerate(range(len(self.__list_intermediate))):
+                        self.__list_intermediate[i].append(res[i])
+
+    def __build_boolean_control(self):
+           for i,val in enumerate(self.__list_intermediate):
+                if val in self.boolean_truth:
+                    self.boolean_control.append(True)
+                else :
+                    self.boolean_control.append(False)
 
 
-
-        print("Le test",self.__list_intermediate[1],self.__list_intermediate[1] in [[1,0]])
-        print(self.__list_intermediate)
-
-
-
-
-
-
-
-data_source = pd.DataFrame()
-
-#a = Complex_control("Complexe","flflf",data_source,"dldl*jjj",1)

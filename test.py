@@ -1,8 +1,59 @@
 import operator
 import itertools
 import re
+import pandas as pd
 import numpy as np
 import numpy
+
+a = [1,3,4]
+
+print(a[-1])
+g="totl "
+
+
+if g[-1] == " ":
+    print("fkfkfk")
+
+a = "plouffldle"
+print(a.startswith(("fl","plouf")))
+
+
+def dimlist(Liste):
+    l = []
+    for i, val in enumerate(range((len(Liste[0])))):
+        for j, val2 in enumerate(Liste):
+            l.append(Liste[i][j])
+    return l
+
+
+for i, val in enumerate(range(int((len(y))/2))):
+    print(i)
+
+print(dimlist(r),"cool")
+print(dimlist(y))
+
+for i, val in enumerate(range((len(r[0])))):
+   for j, val2 in enumerate(r):
+      print(r[i][j])
+
+
+
+print(r[0][0],r[1][0],r[0][1],r[1][1])
+'''for i, val in enumerate r:
+    for y,val2 in len(val):
+        print(val[i-1][y])'''
+
+g =[4,3]
+
+m = list(zip(r,[g]))
+t=[[i,j] for i,j in zip(r,g)]
+print(t)
+#t = [[i,j,k] for i,j,k in zip(r,g,c)]
+#print(t)
+a = ['a', 'c']
+b = ['d',  'e']
+c = list(zip(a,b))
+print(list(c))
 
 """
 ops = {"+": operator.add,
@@ -16,28 +67,56 @@ b=78
 result = op_func(a, b)
 print(result)
 
+
+a=[1,2,3,4,5,6]
+
+b=[7,8,9,10,11,12]
+
+k=[3,3,5]
+v=[10,3,5]
+
+y = list(zip(a,b,k,v))
+j =[]
+for val in y:
+    j.append(list(val))
+
 """
 
-a = [['a'], ['c']]
-b = [['d'],  ['e']]
-c = list(zip(a,b))
-print(c[0])
+
+a=[3,4]
+b=[1,9]
+c=[8,4]
+
+d= {'C1': a,'C2':b,'C3':c}
+h = pd.DataFrame(data=d)
+g = list(itertools.chain(a, b, c))
+print(g)
+"""
+def fus():
+    a=[]
+    for i, val in enumerate(h.itertuples()):
+        a.append(
+            h[])
+#y = [[i, j] for i, j in zip(x,k)]
+#print(x)
+
+"""
+
+
 
 #print(list(zip(['a', 'b', 'c'], ['d', 'e', 'f'])))
-
-
-
-print(zip(a,b))
+a = True
+b = True
+c = False
+print (a and b or c, "cool")
 
 a = [[False,False],[False,False]]
 b = [[1,1]]
 for i,val in enumerate(a):
     if a[i] in b:
         print("ok")
+    else: print("grrr")
 
-a="bal*dfs*f-k*fk ht"
-g =re.split('[-*]',a)
-print(g)
 
 
 test ="A*B-C"
