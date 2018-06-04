@@ -5,6 +5,13 @@ import pandas as pd
 import numpy as np
 import numpy
 
+
+a="02.12.2013"
+
+print(a[1:])
+
+
+b = "03.12"
 a = [1,3,4]
 
 print(a[-1])

@@ -2,6 +2,7 @@ import pandas as pd
 import Simple_control as sp
 import time
 import Complex_control as cp
+from datetime import datetime
 
 class Control_center:
     def __init__(self, path_datasource, worksheets):
@@ -11,6 +12,7 @@ class Control_center:
         self.text_result = pd.DataFrame()    # DataFrame containing the commented result
         self.worksheets = worksheets    # worksheets of the Excel source file
         self.__load_excel_datasource()  # transfer of the excel file containing data to source DataFrame
+        self.nb_fistrows = 0
 
     def __load_excel_datasource(self):
 
@@ -21,26 +23,25 @@ class Control_center:
             print("the excel file doest exist")
 
     def first_raws(self, *args):
-        nb = 0
+        self.nb_fistrows = 0
         try:
             for arg in args:
                 self.bool_result[arg] = self.datasource[arg]
                 self.text_result[arg] = self.datasource[arg]
-                nb += 1
+                self.nb_fistrows += 1
         except:
             print("the column doest exist")
 
-        if nb != 0:
+        if self.nb_fistrows != 0:
             cols = self.bool_result.columns.tolist()
-            total_cols = len(cols) - nb
-            cols = cols[-nb:] + cols[:total_cols]
+            total_cols = len(cols) - self.nb_fistrows
+            cols = cols[-self.nb_fistrows:] + cols[:total_cols]
             self.bool_result = self.bool_result[cols]
 
             cols = self.text_result.columns.tolist()
-            total_cols = len(cols) - nb
-            cols = cols[-nb:] + cols[:total_cols]
+            total_cols = len(cols) - self.nb_fistrows
+            cols = cols[-self.nb_fistrows:] + cols[:total_cols]
             self.text_result = self.text_result[cols]
-
 
     def convert_col(self,column_name, format, newname = None):
         if newname == None:
@@ -62,6 +63,43 @@ class Control_center:
         control_empty = sp.Simple_control(control_name,  column_name, error_message, self.datasource, showed,reverse)
         control_empty.boolean_control = pd.isna(self.datasource[column_name]) # Check empty cells and update bool_result list
         self.update_DataFrame(control_empty)
+
+    def datecompare(self,date1,date2,compare,showed,control_name="Date_compare", error_message="Empty", reverse="F"):
+        control_datecomp = sp.Simple_control(control_name, date1,error_message,self.datasource,showed,reverse)
+
+        if "/" in date2:
+            print("ok")
+            date2 = datetime.strptime(date2 ,'%d/%m/%Y')
+            for i, val in enumerate(self.datasource.itertuples()):
+                if compare == ">":
+                    self.datasource.at[i, "delta_" + control_name] = self.datasource.at[i, date1] - date2
+                    if self.datasource.at[i, "delta_" + control_name].days > 0:
+                        control_datecomp.boolean_control.append(True)
+                    else:
+                        control_datecomp.boolean_control.append(False)
+                if compare == "<":
+                    self.datasource.at[i, "delta_" + control_name] = self.datasource.at[i, date2] - date2
+                    if self.datasource.at[i, "delta_" + control_name].days > 0:
+                        control_datecomp.boolean_control.append(True)
+                    else:
+                        control_datecomp.boolean_control.append(False)
+        else:
+            for i,val in enumerate(self.datasource.itertuples()):
+                if compare == ">":
+                    self.datasource.at[i, "delta_"+control_name] = self.datasource.at[i, date1]-self.datasource.at[i, date2]
+                    if self.datasource.at[i, "delta_"+control_name].days > 0:
+                        control_datecomp.boolean_control.append(True)
+                    else:
+                        control_datecomp.boolean_control.append(False)
+
+                if compare == "<":
+                    self.datasource.at[i, "delta_"+control_name] = self.datasource.at[i, date2]-self.datasource.at[i, date1]
+                    if self.datasource.at[i, "delta_"+control_name].days > 0:
+                        control_datecomp.boolean_control.append(True)
+                    else:
+                        control_datecomp.boolean_control.append(False)
+
+        self.update_DataFrame(control_datecomp)
 
     def Isequal(self, column_name,showed,control_name="Equality_Test", error_message="wrong value",reverse="F",*values):
         control_isequal= sp.Simple_control(control_name,  column_name, error_message, self.datasource, showed,reverse)
@@ -115,13 +153,27 @@ class Control_center:
     def list_columns(self):
         print(self.bool_result.columns)
 
-
     def complex_control(self,control_name, error_message, control_validation,showed):
         comp_c = cp.Complex_control(control_name, error_message, self.bool_result,control_validation,showed)
         self.update_DataFrame(comp_c)
 
+    def __synthesis(self):
+        columns = self.text_result.columns
+        self.text_result["Synthèse"] = ""
+        for col in columns:
+            for i,val in enumerate(self.text_result[col]):
+                if val != "":
+                    self.text_result.at[i, "Synthèse"] = self.text_result.at[i, "Synthèse"] + str(val) + "/"
+
+        cols = self.text_result.columns.tolist()
+        total_cols = len(cols) - self.nb_fistrows
+        cols = cols[-1:] + cols[:total_cols]
+        self.text_result = self.text_result[cols]
+
+
     def export_excel(self,directory,result_type,sheet="Results"):
         """Méthode permettant d'extraire le résultat sous forme d'un fichier excel"""
+        self.__synthesis()
         if result_type == "bool":
             writer = pd.ExcelWriter(directory, engine='xlsxwriter')
             self.bool_result.to_excel(writer, sheet_name=sheet)
@@ -130,15 +182,17 @@ class Control_center:
             writer = pd.ExcelWriter(directory, engine='xlsxwriter')
             self.text_result.to_excel(writer, sheet_name=sheet)
 
+
 t3 = time.clock()
 montest = Control_center(r'D:\Users\sgasmi\Desktop\Données maquette\Data_model - Copie.xlsx', 'Feuil1')
 t4 = time.clock()
 #montest = Control_center(r'C:\Users\Sabri.GASMI\Desktop\Jeu - Copie.xlsx', 'Feuil1')
 
-
 t5 = time.clock()
 montest.convert_col("Prénom","String")
 montest.convert_col("Matricule","String","str_Matricule")
+montest.convert_col("Date d'entrée société","Date")
+montest.convert_col("Date d'entrée groupe","Date")
 t6 = time.clock()
 
 #print(montest.datasource.dtypes)
@@ -149,7 +203,9 @@ montest.Isequal("Tranche décompte",0,"Scope_decompte","Scope_Decompte","T",1,99
 montest.Isequal("Clé statut d'activité",0,"Scope_activite","Scope_activite","F",1,3)
 montest.Isequal("CtSAL",0,"Scope_ct_SAL","Scope_ct_SAL","F",1,8)
 #test simples
-montest.empty("Matricule",0,"Matricule_vide","Matricule vide")
+montest.datecompare("Date d'entrée société","Date d'entrée groupe",">",1,"Ecart date","Date entrée invalide")
+montest.datecompare("Date de naissance","30/06/1981",">",1,"Ecart age", "Age improbable")
+montest.empty("Matricule",1,"Matricule_vide","Matricule vide")
 montest.empty("Prénom",0,"Prénom_vide","Prénom vide")
 montest.empty("Nom",0,"Nom_vide","Nom vide")
 montest.empty("Sexe",0,"Sexe_vide","Sexe vide")
@@ -172,6 +228,8 @@ montest.empty("Région",0,"Région_vide")
 montest.empty("Agence",0,"Agence_vide")
 montest.space("Nom",1,"end","Nom_beg")
 
+
+
 #tests complexe
 montest.complex_control("Conditions","Ok","Scope_FR*Scope_decompte*Scope_activite*Scope_activite",1)
 montest.complex_control("Matricule vide","Matricule vide","Matricule_vide*Conditions",1)
@@ -191,6 +249,7 @@ montest.complex_control("Classif vide", "Classif vide", "Classif_vide*Conditions
 montest.complex_control("Délégation","Délégation vide","Délégation_vide*Conditions",1)
 montest.complex_control("Région","Région vide","Région_vide*Conditions",1)
 montest.complex_control("Agence","Agence vide","Agence_vide*Conditions",1)
+
 
 montest.first_raws("Matricule", "Nom")
 
