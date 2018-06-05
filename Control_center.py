@@ -3,6 +3,9 @@ import Simple_control as sp
 import time
 import Complex_control as cp
 from datetime import datetime
+import openpyxl as op
+from openpyxl.utils.dataframe import dataframe_to_rows
+
 
 class Control_center:
     def __init__(self, path_datasource, worksheets):
@@ -68,7 +71,6 @@ class Control_center:
         control_datecomp = sp.Simple_control(control_name, date1,error_message,self.datasource,showed,reverse)
 
         if "/" in date2:
-            print("ok")
             date2 = datetime.strptime(date2 ,'%d/%m/%Y')
             for i, val in enumerate(self.datasource.itertuples()):
                 if compare == ">":
@@ -159,6 +161,7 @@ class Control_center:
 
     def __synthesis(self):
         columns = self.text_result.columns
+        columns = columns[self.nb_fistrows:]
         self.text_result["Synthèse"] = ""
         for col in columns:
             for i,val in enumerate(self.text_result[col]):
@@ -170,7 +173,6 @@ class Control_center:
         cols = cols[-1:] + cols[:total_cols]
         self.text_result = self.text_result[cols]
 
-
     def export_excel(self,directory,result_type,sheet="Results"):
         """Méthode permettant d'extraire le résultat sous forme d'un fichier excel"""
         self.__synthesis()
@@ -180,7 +182,33 @@ class Control_center:
             writer.save()
         if result_type == "text":
             writer = pd.ExcelWriter(directory, engine='xlsxwriter')
+
             self.text_result.to_excel(writer, sheet_name=sheet)
+
+    def toexcel(self, directory):
+
+        """toexcel export dataframe into an Excel File."""
+        #Detailed view
+        self.__synthesis()
+        wb = op.Workbook()
+        ws = wb.active
+        for r in dataframe_to_rows(self.text_result, index=True, header=True):
+            ws.append(r)
+        ws.delete_cols(1, amount=1)
+        ws.delete_rows(2, amount=1)
+        ws.title = "Liste détaillée"
+        ws.column_dimensions["A"].width = 45
+
+        cols = self.text_result.columns.tolist()
+        for i, val in enumerate(cols):
+            if i not in [0,1]:
+                if len(val) < 15:
+                    ws.column_dimensions[op.utils.get_column_letter(i+1)].width = 15
+                else:
+                    ws.column_dimensions[op.utils.get_column_letter(i+1)].width = len(val)
+                    #ws[op.utils.get_column_letter(i+1)+1].p
+                    print(op.utils.get_column_letter(i),len(val), val)
+        wb.save(directory)
 
 
 t3 = time.clock()
@@ -228,8 +256,6 @@ montest.empty("Région",0,"Région_vide")
 montest.empty("Agence",0,"Agence_vide")
 montest.space("Nom",1,"end","Nom_beg")
 
-
-
 #tests complexe
 montest.complex_control("Conditions","Ok","Scope_FR*Scope_decompte*Scope_activite*Scope_activite",1)
 montest.complex_control("Matricule vide","Matricule vide","Matricule_vide*Conditions",1)
@@ -257,10 +283,11 @@ montest.first_raws("Matricule", "Nom")
 
 t2 = time.clock()
 t7 = time.clock()
-montest.export_excel(r'D:\Users\sgasmi\Desktop\Anomalies.xlsx',"text")
+
+montest.toexcel(r"D:\Users\sgasmi\Desktop\toto.xlsx")
+#montest.export_excel(r'D:\Users\sgasmi\Desktop\Anomalies.xlsx',"text")
 
 t8 = time.clock()
-
 
 print(t2 - t1,"tests")
 print(t4 - t3, "chargement")
