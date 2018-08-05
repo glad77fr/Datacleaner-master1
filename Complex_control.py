@@ -17,10 +17,11 @@ class Complex_control():
         self.__bool_transformation()
         self.__build_list_control() # Fueling of list_control (that contains the list of control that will be manipulate)
         self.__list_intermediate = [] # List the booleans values of the control
+        print(self.__list_intermediate)
+        print("toto")
         self.__build___list_intermediate() # Method that is fueling list_intermemiate
         self.reverse= reverse
         self.__build_boolean_control()
-
 
     def __control_attr(self):
         if not isinstance(self.control_name, str):  # control if control_name is a string
@@ -46,7 +47,7 @@ class Complex_control():
             self.commented_anomaly = [self.error_message if x is True else "" for x in self.commented_anomaly]
 
     def __bin_count_or(self,val):
-        # Transformation into table of truth for or values
+        # Transformation into table of truth for "or" values
         bin_list = list(itertools.product([0, 1], repeat=val * 2))
         bin_list2 = []
         res_list = []
@@ -198,5 +199,7 @@ class Complex_control():
                     self.boolean_control.append(True)
                 else :
                     self.boolean_control.append(False)
+
+
 
 
