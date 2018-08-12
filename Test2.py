@@ -2,7 +2,7 @@ import re
 
 def extraction (value):
     values = []
-    values = re.split('[-*~]',value)
+    values = re.split('[-*)~(]',value)
     result = []
 
     for val in values:
@@ -32,8 +32,11 @@ def add_parenthesis(value):
         if i == 0 and val == "*":
             value = "(" + value
             ind +=1
-
-            if value[ind+1] not in ["*",")"]:
+            try:
+                if value[ind+1] not in ["*",")"]:
+                    value = value[:ind + 1] + ")" + value[ind + 1:]
+                    ind += 1
+            except:
                 value = value[:ind + 1] + ")" + value[ind + 1:]
                 ind += 1
         else:
@@ -58,7 +61,6 @@ def add_parenthesis(value):
     for i, val in enumerate(value):
         if val == "(" :
             for y,val in enumerate(value[ind2:]):
-
                 if val == "(" and y != 0:
                     break
                 if val == ")":
@@ -101,9 +103,9 @@ def add_values(values,expression):
     newexpression =""
     for i,val in enumerate(expression):
         ind_exp +=1
+
         if val =="*":
             if newexpression != "":
-                print(newexpression, ind_exp-1)
                 newexpression = newexpression[:ind_exp-1] + values[ind_val] + newexpression[ind_exp-1:]
                 ind_exp +=   len(values[ind_val])
                 ind_val += 1
@@ -111,15 +113,47 @@ def add_values(values,expression):
                 newexpression = expression[:ind_exp-1] + values[ind_val] + expression[ind_exp-1:]
                 ind_exp += len(values[ind_val])
                 ind_val += 1
+
+        if val == ")" and expression[i-1] == "*":
+            newexpression = newexpression[:ind_exp-1] + values[ind_val] + newexpression[ind_exp-1:]
+            ind_exp += len(values[ind_val])
+            ind_val += 1
+
+        if val in ["-", "~"] and expression[i-1] != ")":
+            if newexpression != "":
+                   newexpression = newexpression[:ind_exp-1] + values[ind_val] + newexpression[ind_exp-1:]
+                   ind_exp += len(values[ind_val])
+                   ind_val += 1
+            else :
+              newexpression = expression[:ind_exp-1] + values[ind_val] + expression[ind_exp-1:]
+              ind_exp += len(values[ind_val])
+              ind_val += 1
+
+        if val in ["-", "~"] and i == 0:
+            newexpression = values[ind_val] + expression[ind_exp-1:]
+            ind_exp += len(values[ind_val])
+            ind_val += 1
+
+        if val in ["-", "~"]:
+            try:
+                expression[i+1]
+            except:
+               newexpression = newexpression[:ind_exp+1] + values[ind_val] + newexpression[ind_exp+1:]
+               ind_exp += len(values[ind_val])
+               ind_val += 1
+
     return newexpression
 
-
-expression = extract_spe("ajf*djjdj*dnd-dnd*ff-rr-dd*d*f*d~r")
-valeurs = extraction("ajf*djjdj*dnd-dnd*ff-rr-dd*d*f*d~r")
+exp = "a*b"
+exp2 = "a-b*c"
+exp3 = "a*r*e-f"
+exp4 = "(a*b)-c"
+expression = extract_spe(exp4)
+print(expression,"expression")
+valeurs = extraction(exp4)
+print(valeurs,"valeurs")
 parenthesis = add_parenthesis(expression)
-print(valeurs)
-print(expression)
-print(parenthesis)
+print(parenthesis,"parenthesis")
 
 print(add_values(valeurs, parenthesis))
 
